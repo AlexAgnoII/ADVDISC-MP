@@ -65,7 +65,7 @@ public class Vector {
     public void printElements() {
         System.out.print("[");
 
-        for(int i = 0; i < this.dimension; ++i) {
+        for(int i = 0; i < this.dimension; i++) {
             System.out.print(this.data[i]);
             if (i + 1 != this.dimension) {
                 System.out.print(" ");

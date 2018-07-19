@@ -61,5 +61,18 @@ public class Vector {
     public int getDimension() {
         return this.dimension;
     }
+    
+    public void printElements() {
+        System.out.print("[");
+
+        for(int i = 0; i < this.dimension; ++i) {
+            System.out.print(this.data[i]);
+            if (i + 1 != this.dimension) {
+                System.out.print(" ");
+            }
+        }
+
+        System.out.print("]");
+    }
 
 }

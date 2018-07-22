@@ -18,7 +18,7 @@ public class Vector {
         this.data = new Double[dimension];
 
         for(int i = 0; i < dimension; i++) {
-            this.data[i] = 0.0;
+            this.data[i] = 2.0;
         }
     }
 
@@ -26,17 +26,28 @@ public class Vector {
         this.data = array;
         this.dimension = dimension;
     }
-
+    
     public Vector scale(int scalar) {
+    	
+    	for (int i = 0; i < dimension; i++) {
+    		this.data[i] = this.data[i] * scalar;
+    	}
     	
     	return this;
     }
 
-    public Vector add(Vector addened) {
-
+    public Vector add(Vector addend) {
+  
+    	if (addend.dimension != this.dimension) {
+    		System.out.println("\nInvalid operation.");
+    	} else {
+    		for (int i = 0; i < dimension; i++) {
+        		this.data[i] = this.data[i] + addend.data[i];
+        	}
+    	}
         return this;
     }
-
+   
     public static Vector Gauss_Jordan(List<Vector> vectors,
                                       int dimension,
                                       Vector constants) {

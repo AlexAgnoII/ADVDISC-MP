@@ -52,18 +52,21 @@ public class Vector {
         return this;
     }
 
-	public static Vector Gauss_Jordan(List<Vector> vectors, int dimension, // dimension of all vectors in vectors list.
-			Vector constants) {
-
-		REF(vectors, dimension, constants);
-		RREF(vectors, dimension, constants);
-
-		System.out.println("Final: ");
-		printAllVectors(vectors);
-		System.out.print("Constants: ");
-		constants.printElements();
-
-		return constants;
+	public static Vector Gauss_Jordan(List<Vector> vectors, int dimension, Vector constants) {
+		
+		Vector solutionVector = null;
+		
+		if(vectors.size() == dimension) {
+			
+			REF(vectors, dimension, constants);
+			RREF(vectors, dimension, constants);
+	
+			System.out.println("Final: ");
+			printAllVectors(vectors, constants);
+			solutionVector = constants;
+		}
+		
+		return solutionVector;
 	}
 
 	private static void REF(List<Vector> vectors, int dimension, // dimension of all vectors in vectors list.
@@ -71,9 +74,7 @@ public class Vector {
 		int vectListSize = vectors.size();
 
 		System.out.println("Initial: ");
-		printAllVectors(vectors);
-		System.out.print("Constants: ");
-		constants.printElements();
+		printAllVectors(vectors, constants);
 		System.out.println();
 
 		// row echelon form
@@ -88,27 +89,20 @@ public class Vector {
 
 				if (nextIndex != -1) {
 					swapRows(vectors, currentIndex, nextIndex, constants);
+					currentElement = vectors.get(currentIndex).data[currentIndex];
+					System.out.println("New Row[" + currentIndex + "] Current element: " + currentElement);
 				}
 
-				currentElement = vectors.get(currentIndex).data[currentIndex];
-				System.out.println("New Row[" + currentIndex + "] Current element: " + currentElement);
 
-				printAllVectors(vectors);
-				System.out.print("Constants: ");
-				constants.printElements();
+				printAllVectors(vectors, constants);
 			}
 
 			// check if current element 1.
-			if (currentElement.compareTo(D_ONE) != 0) { // if greater we have to scale vector by dividing it to become 1.
+			if (currentElement.compareTo(D_ONE) != 0 && currentElement.compareTo(D_ZERO) != 0) { // if greater we have to scale vector by dividing it to become 1.
 				System.out.println("its greater than 1 OR its negative!!");
 				divideRow(vectors, dimension, currentIndex, currentElement, constants);
-				printAllVectors(vectors);
-				System.out.print("Constants: ");
-				constants.printElements();
-			}
-
-			else if (currentElement.compareTo(D_ZERO) == 0.0) {
-				System.out.println("Its still zero!");
+				
+				printAllVectors(vectors, constants);
 			}
 
 			// make all elements below currentElement, value 1, as 0. (vectListSize - 1
@@ -129,11 +123,15 @@ public class Vector {
 			Vector constants) {
 
 		for (int currentIndex = vectors.size() - 1; currentIndex > 0; currentIndex--) {
-			System.out.println(
-					"Row[" + currentIndex + "] Current element: " + vectors.get(currentIndex).data[currentIndex]);
-			for (int precedingIndex = currentIndex - 1; precedingIndex >= 0; precedingIndex--) {
-				addRows(vectors, currentIndex, precedingIndex, dimension, constants);
+			System.out.println("Row[" + currentIndex + "] Current element: " + vectors.get(currentIndex).data[currentIndex]);
+			
+			if(vectors.get(currentIndex).data[currentIndex].compareTo(D_ZERO) != 0) {
+				for (int precedingIndex = currentIndex - 1; precedingIndex >= 0; precedingIndex--) {
+					addRows(vectors, currentIndex, precedingIndex, dimension, constants);
+				}
 			}
+			
+			else System.out.println("This is zero, no need to perform RREF");
 
 		}
 	}
@@ -233,9 +231,7 @@ public class Vector {
 			constants.data[otherIndex] += -mult * constants.data[currentIndex];
 		}
 
-		printAllVectors(vectors);
-		System.out.print("Constants: ");
-		constants.printElements();
+		printAllVectors(vectors, constants);
 	}
 
 	public void printElements() {
@@ -250,10 +246,13 @@ public class Vector {
 		System.out.print("]" + " Dimension: " + this.dimension + "\n");
 	}
 
-	private static void printAllVectors(List<Vector> vectors) {
+	private static void printAllVectors(List<Vector> vectors, Vector constants) {
 		for (int i = 0; i < vectors.size(); i++) { // checking onli.
 			vectors.get(i).printElements();
 		}
+		
+		System.out.print("constants: ");
+		constants.printElements();
 	}
 
 }

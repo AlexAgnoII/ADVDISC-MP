@@ -67,9 +67,13 @@ public class Driver {
         vecList.add(v1);
         vecList.add(v2);
 
-        Vector answer = Vector.Gauss_Jordan(vecList, 2, cv);
+        Vector answer = Vector.Gauss_Jordan(vecList, 4, cv);
         
-        answer.printElements();
+        try {
+        	answer.printElements();
+        }catch(Exception NullPointerException) {
+        	System.out.println("Unsolvable.");
+        }
 	}
 	
 	//for testing

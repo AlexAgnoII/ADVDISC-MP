@@ -67,7 +67,7 @@ public class Driver {
         vecList.add(v1);
         vecList.add(v2);
 
-        Vector answer = Vector.Gauss_Jordan(vecList, 4, cv);
+        Vector answer = Vector.Gauss_Jordan(vecList, 2, cv);
         
         try {
         	answer.printElements();
@@ -78,8 +78,8 @@ public class Driver {
 	
 	//for testing
 	public static void main(String[] args) {
-		//gauss_Jordan_test();
+		gauss_Jordan_test();
 		//ADVDISC_SAMPLES_SPAN();
-		ADVDISC_SAMPLES_GJ();
+		//ADVDISC_SAMPLES_GJ();
 	}
 }

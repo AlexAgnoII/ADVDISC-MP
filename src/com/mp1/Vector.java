@@ -31,10 +31,11 @@ public class Vector {
         this.dimension = dimension;
     }
     
-    public Vector scale(int scalar) {
+    public Vector scale(Double scalar) {
     	
     	for (int i = 0; i < dimension; i++) {
-    		this.data[i] = this.data[i] * scalar;
+    		if(this.data[i].compareTo(D_ZERO) != 0)
+    			this.data[i] = this.data[i] * scalar;
     	}
     	
     	return this;
@@ -56,7 +57,7 @@ public class Vector {
 		
 		Vector solutionVector = null;
 		
-		if(vectors.size() == dimension) {
+		if(constants.dimension == vectors.size()) {
 			
 			REF(vectors, dimension, constants);
 			RREF(vectors, dimension, constants);
@@ -77,7 +78,6 @@ public class Vector {
 		printAllVectors(vectors, constants);
 		System.out.println();
 
-		// row echelon form
 		for (int currentIndex = 0; currentIndex < vectListSize; currentIndex++) {
 			Double currentElement = vectors.get(currentIndex).data[currentIndex];
 			System.out.println("Row[" + currentIndex + "] Current element: " + currentElement);
@@ -132,7 +132,6 @@ public class Vector {
 			}
 			
 			else System.out.println("This is zero, no need to perform RREF");
-
 		}
 	}
 
@@ -206,11 +205,7 @@ public class Vector {
 			Vector constants) {
 
 		Double mult = (1.0 / currentElement);
-
-		for (int i = 0; i < dimension; i++) {
-			if (vectors.get(vecListIndex).data[i].compareTo(D_ZERO) != 0)
-				vectors.get(vecListIndex).data[i] = vectors.get(vecListIndex).data[i] * mult;
-		}
+		vectors.get(vecListIndex).scale(mult);
 
 		// multiply to constant
 		if (constants.data[vecListIndex].compareTo(D_ZERO) != 0)
@@ -224,9 +219,15 @@ public class Vector {
 
 		if (vectors.get(otherIndex).data[currentIndex].compareTo(D_ZERO) != 0) {
 			Double mult = vectors.get(otherIndex).data[currentIndex];
-			for (int i = 0; i < dimension; i++) {
-				vectors.get(otherIndex).data[i] += -mult * vectors.get(currentIndex).data[i];
-			}
+			
+			//Scale addened.
+			vectors.get(currentIndex).scale(-mult);
+			
+			//Add addenned.
+			vectors.get(otherIndex).add(vectors.get(currentIndex));
+			
+			//Bring addened back to its original.
+			vectors.get(currentIndex).scale(-(1.0 / mult));
 
 			constants.data[otherIndex] += -mult * constants.data[currentIndex];
 		}

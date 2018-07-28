@@ -58,19 +58,12 @@ public class Vector {
 		
 		Vector solutionVector = null;
 		
+		vectors = transform_vectors(vectors, dimension);
+		
 		if(constants.dimension == vectors.size()) {
-			printAllVectors(vectors, constants);
-			vectors = transform_vectors(vectors, dimension);
-			printAllVectors(vectors, constants);
-			
-			System.out.println();
-			
 			REF(vectors, dimension, constants);
 			RREF(vectors, dimension, constants);
-	
-			System.out.println("Final: ");
-			printAllVectors(vectors, constants);
-			solutionVector = constants;
+            solutionVector = constants;
 		}
 		
 		return solutionVector;
@@ -80,13 +73,8 @@ public class Vector {
 			Vector constants) {
 		int vectListSize = vectors.size();
 
-		System.out.println("Initial: ");
-		printAllVectors(vectors, constants);
-		System.out.println();
-
 		for (int currentIndex = 0; currentIndex < vectListSize; currentIndex++) {
 			Double currentElement = vectors.get(currentIndex).data[currentIndex];
-			System.out.println("Row[" + currentIndex + "] Current element: " + currentElement);
 
 			// check if current element 0.
 			if (currentElement.compareTo(D_ZERO) == 0) { // if 0, we have to swap.
@@ -96,7 +84,6 @@ public class Vector {
 				if (nextIndex != -1) {
 					swapRows(vectors, currentIndex, nextIndex, constants);
 					currentElement = vectors.get(currentIndex).data[currentIndex];
-					System.out.println("New Row[" + currentIndex + "] Current element: " + currentElement);
 				}
 
 
@@ -105,10 +92,7 @@ public class Vector {
 
 			// check if current element 1.
 			if (currentElement.compareTo(D_ONE) != 0 && currentElement.compareTo(D_ZERO) != 0) { // if greater we have to scale vector by dividing it to become 1.
-				System.out.println("its greater than 1 OR its negative!!");
 				divideRow(vectors, dimension, currentIndex, currentElement, constants);
-				
-				printAllVectors(vectors, constants);
 			}
 
 			// make all elements below currentElement, value 1, as 0. (vectListSize - 1
@@ -129,15 +113,12 @@ public class Vector {
 			Vector constants) {
 
 		for (int currentIndex = vectors.size() - 1; currentIndex > 0; currentIndex--) {
-			System.out.println("Row[" + currentIndex + "] Current element: " + vectors.get(currentIndex).data[currentIndex]);
 			
 			if(vectors.get(currentIndex).data[currentIndex].compareTo(D_ZERO) != 0) {
 				for (int precedingIndex = currentIndex - 1; precedingIndex >= 0; precedingIndex--) {
 					addRows(vectors, currentIndex, precedingIndex, dimension, constants);
 				}
 			}
-			
-			else System.out.println("This is zero, no need to perform RREF");
 		}
 	}
 
@@ -148,7 +129,6 @@ public class Vector {
 		int index = 0;
 
 		Gauss_Jordan(vectors, dimensions, vector);
-		System.out.println("Span mode: ");
 
 		for (int currentIndex = 0; currentIndex < vectors.size(); currentIndex++) {
 			index = 0;
@@ -209,14 +189,12 @@ public class Vector {
 			if (currentElement.compareTo(vectors.get(nextIndex).data[currentIndex]) != 0) {
 				currentElement = vectors.get(nextIndex).data[currentIndex];
 				found = true;
-				System.out.println("Nonzero found!");
 			} else {
 				nextIndex++;
 			}
 		}
 
 		if (found == false) {// no swapping allowed.
-			System.out.println("Did not find any other nonzero..");
 			nextIndex = -1;
 		}
 
@@ -249,8 +227,7 @@ public class Vector {
 
 	private static void addRows(List<Vector> vectors, int currentIndex, int otherIndex, int dimension,
 			Vector constants) {
-		System.out.println("Checking: " + vectors.get(otherIndex).data[currentIndex]);
-
+		
 		if (vectors.get(otherIndex).data[currentIndex].compareTo(D_ZERO) != 0) {
 			Double mult = vectors.get(otherIndex).data[currentIndex];
 			
@@ -262,8 +239,6 @@ public class Vector {
 
 			constants.data[otherIndex] += -mult * constants.data[currentIndex];
 		}
-
-		printAllVectors(vectors, constants);
 	}
 
 	public void printElements() {

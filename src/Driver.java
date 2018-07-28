@@ -24,7 +24,9 @@ public class Driver {
         vecList.add(v2);
         vecList.add(v3);
 
-        Vector.Gauss_Jordan(vecList, 3, constraints);
+        Vector solution = Vector.Gauss_Jordan(vecList, 3, constraints);
+        
+        solution.printElements();
 //        int theSpan = Vector.span(vecList, 3);
 //        System.out.println("The vecctors spans as: " + theSpan + "d");
     }

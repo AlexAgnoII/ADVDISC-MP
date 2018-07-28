@@ -60,10 +60,11 @@ public class Vector {
 		
 		vectors = transform_vectors(vectors, dimension);
 		
+		//TODO Implement proper checking for unsolvable solutions (given vectors size, dimension and constants.)
 		if(constants.dimension == vectors.size()) {
 			REF(vectors, dimension, constants);
 			RREF(vectors, dimension, constants);
-            solutionVector = constants;
+            solutionVector = check_for_inconsistency(vectors, constants, dimension);
 		}
 		
 		return solutionVector;
@@ -232,6 +233,40 @@ public class Vector {
 
 			constants.data[otherIndex] += -mult * constants.data[currentIndex];
 		}
+	}
+	
+
+	private static Vector check_for_inconsistency(List<Vector> vectors, Vector constants, int dimension) {
+		Boolean isAllZeros = false;
+		Boolean isInconsistent = false;
+		int row = 0;
+		int col = 0;
+		
+		printAllVectors(vectors, constants);
+		
+		while(row < vectors.size() && !isInconsistent) {
+			isAllZeros = true;
+			col = 0;
+			while(col < dimension && isAllZeros) {
+				if(vectors.get(row).data[col] != 0) {
+					isAllZeros = false;
+				}
+				else col++;
+			}
+			
+			if(isAllZeros && constants.data[row] != 0) {
+				isInconsistent = true;
+			}
+			else row++;
+		}
+		
+		if(!isInconsistent) {
+			System.out.println("Consistent!");
+			return constants;
+		}
+		
+		System.out.println("Inconsistent!");
+		return null;
 	}
 
 	public void printElements() {

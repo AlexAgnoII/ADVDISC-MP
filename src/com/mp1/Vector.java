@@ -1,5 +1,6 @@
 package com.mp1;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -58,6 +59,11 @@ public class Vector {
 		Vector solutionVector = null;
 		
 		if(constants.dimension == vectors.size()) {
+			printAllVectors(vectors, constants);
+			vectors = transform_vectors(vectors, dimension);
+			printAllVectors(vectors, constants);
+			
+			System.out.println();
 			
 			REF(vectors, dimension, constants);
 			RREF(vectors, dimension, constants);
@@ -161,6 +167,34 @@ public class Vector {
 	}
 
 	/* Helper functions */
+	/*Transforms vector list from row to column.*/
+	private static List<Vector> transform_vectors(List<Vector> vectors, int dimension) {
+
+		int size = vectors.size();
+		List<Vector> tVectors = new ArrayList<Vector>();
+		List<Double[]> tempDoubleList = new ArrayList<Double[]>();
+		
+		for(int i = 0; i < dimension; i++) {
+			tempDoubleList.add(new Double[size]);
+		}
+		
+		for(int col = 0; col < dimension; col++) {
+			
+			for( int row = 0; row < vectors.size(); row++) {
+				tempDoubleList.get(col)[row] = vectors.get(row).data[col];
+				
+			}
+		}
+		
+		vectors.clear();
+		
+		for(int i = 0; i < dimension; i++) {
+			vectors.add(new Vector(tempDoubleList.get(i), size));
+		}
+		
+		
+		return vectors;
+	}
 
 	/* Find other nonzero element row when current element is 0 */
 	private static int findNonZero(List<Vector> vectors, int vectListSize, int currentIndex, Double currentElement,
@@ -220,11 +254,8 @@ public class Vector {
 		if (vectors.get(otherIndex).data[currentIndex].compareTo(D_ZERO) != 0) {
 			Double mult = vectors.get(otherIndex).data[currentIndex];
 			
-			//Scale addened.
-			vectors.get(currentIndex).scale(-mult);
-			
-			//Add addenned.
-			vectors.get(otherIndex).add(vectors.get(currentIndex));
+			//Scale and Add addenned.
+			vectors.get(otherIndex).add(vectors.get(currentIndex).scale(-mult));
 			
 			//Bring addened back to its original.
 			vectors.get(currentIndex).scale(-(1.0 / mult));

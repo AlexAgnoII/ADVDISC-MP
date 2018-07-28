@@ -8,9 +8,9 @@ import com.mp1.Vector;
 public class Driver {
 	
 	public static void gauss_Jordan_test() {
-        Double[] test1 = {1.0, 1.0, 2.0};
-        Double[] test2 = {2.0, 4.0, -3.0};
-        Double[] test3 = {3.0, 6.0, -5.0};
+        Double[] test1 = {1.0, 2.0, 3.0};
+        Double[] test2 = {1.0, 4.0, 6.0};
+        Double[] test3 = {2.0, -3.0, -5.0};
         Double[] testConstraint = {9.0, 1.0, 0.0};
 
         Vector v1 = new Vector(test1, test1.length);

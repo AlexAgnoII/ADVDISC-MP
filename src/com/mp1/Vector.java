@@ -78,16 +78,12 @@ public class Vector {
 
 			// check if current element 0.
 			if (currentElement.compareTo(D_ZERO) == 0) { // if 0, we have to swap.
-				System.out.println("its 0!");
 				int nextIndex = findNonZero(vectors, vectListSize, currentIndex, currentElement, constants);
 
 				if (nextIndex != -1) {
 					swapRows(vectors, currentIndex, nextIndex, constants);
 					currentElement = vectors.get(currentIndex).data[currentIndex];
 				}
-
-
-				printAllVectors(vectors, constants);
 			}
 
 			// check if current element 1.
@@ -104,8 +100,6 @@ public class Vector {
 				}
 
 			}
-
-			System.out.println();
 		}
 	}
 
@@ -151,7 +145,6 @@ public class Vector {
 	private static List<Vector> transform_vectors(List<Vector> vectors, int dimension) {
 
 		int size = vectors.size();
-		List<Vector> tVectors = new ArrayList<Vector>();
 		List<Double[]> tempDoubleList = new ArrayList<Double[]>();
 		
 		for(int i = 0; i < dimension; i++) {

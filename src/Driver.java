@@ -55,9 +55,9 @@ public class Driver {
 	}
 	
 	public static void ADVDISC_SAMPLES_GJ() {
-        Double[] test1 = {1.0, -3.0};
-        Double[] test2 = {4.0, -12.0};
-        Double[] constants = {7.0, 21.0};
+        Double[] test1 = {2.0, 6.0};
+        Double[] test2 = {4.0, 3.0};
+        Double[] constants = {-10.0, 6.0, 5.0};
 
 
         Vector v1 = new Vector(test1, test1.length);

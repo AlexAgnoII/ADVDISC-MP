@@ -58,7 +58,7 @@ public class Vector {
 		
 		Vector solutionVector = null;
 		Boolean isSolvable = false;
-		vectors = transform_vectors(vectors, dimension);
+		dimension = transform_vectors(vectors, dimension);
 		
 		isSolvable = vectors.size() == dimension && constants.dimension == dimension;
 		
@@ -74,8 +74,11 @@ public class Vector {
 
 	private static void REF(List<Vector> vectors, int dimension, Vector constants, Boolean isSolvable) {
 		int vectListSize = vectors.size();
+		
+		printAllVectors(vectors, constants);
 
-		for (int currentIndex = 0; currentIndex < vectListSize; currentIndex++) {
+		for (int currentIndex = 0; currentIndex < /*vectListSize*/ dimension; currentIndex++) {
+			System.out.println("CurrentIndex: " + currentIndex);
 			Double currentElement = vectors.get(currentIndex).data[currentIndex];
 
 			// check if current element 0.
@@ -107,7 +110,7 @@ public class Vector {
 
 	private static void RREF(List<Vector> vectors, int dimension, Vector constants, Boolean isSolvable) {
 
-		for (int currentIndex = vectors.size() - 1; currentIndex > 0; currentIndex--) {
+		for (int currentIndex = dimension - 1; currentIndex > 0; currentIndex--) {
 			
 			if(vectors.get(currentIndex).data[currentIndex].compareTo(D_ZERO) != 0) {
 				for (int precedingIndex = currentIndex - 1; precedingIndex >= 0; precedingIndex--) {
@@ -143,7 +146,7 @@ public class Vector {
 
 	/* Helper functions */
 	/*Transforms vector list from row to column.*/
-	private static List<Vector> transform_vectors(List<Vector> vectors, int dimension) {
+	private static int transform_vectors(List<Vector> vectors, int dimension) {
 
 		int size = vectors.size();
 		List<Double[]> tempDoubleList = new ArrayList<Double[]>();
@@ -167,7 +170,7 @@ public class Vector {
 		}
 		
 		
-		return vectors;
+		return size;
 	}
 
 	/* Find other nonzero element row when current element is 0 */

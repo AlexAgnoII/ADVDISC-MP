@@ -57,21 +57,22 @@ public class Vector {
 	public static Vector Gauss_Jordan(List<Vector> vectors, int dimension, Vector constants) {
 		
 		Vector solutionVector = null;
-		
+		Boolean isSolvable = false;
 		vectors = transform_vectors(vectors, dimension);
 		
-		//TODO Implement proper checking for unsolvable solutions (given vectors size, dimension and constants.)
-		if(constants.dimension == vectors.size()) {
-			REF(vectors, dimension, constants);
-			RREF(vectors, dimension, constants);
-            solutionVector = check_for_inconsistency(vectors, constants, dimension);
-		}
+		isSolvable = vectors.size() == dimension && constants.dimension == dimension;
 		
+		REF(vectors, dimension, constants, isSolvable);
+		RREF(vectors, dimension, constants, isSolvable);
+		
+		if(isSolvable) {
+	        solutionVector = check_for_inconsistency(vectors, constants, dimension);
+		}
+
 		return solutionVector;
 	}
 
-	private static void REF(List<Vector> vectors, int dimension, // dimension of all vectors in vectors list.
-			Vector constants) {
+	private static void REF(List<Vector> vectors, int dimension, Vector constants, Boolean isSolvable) {
 		int vectListSize = vectors.size();
 
 		for (int currentIndex = 0; currentIndex < vectListSize; currentIndex++) {
@@ -79,17 +80,17 @@ public class Vector {
 
 			// check if current element 0.
 			if (currentElement.compareTo(D_ZERO) == 0) { // if 0, we have to swap.
-				int nextIndex = findNonZero(vectors, vectListSize, currentIndex, currentElement, constants);
+				int nextIndex = findNonZero(vectors, vectListSize, currentIndex, currentElement);
 
 				if (nextIndex != -1) {
-					swapRows(vectors, currentIndex, nextIndex, constants);
+					swapRows(vectors, currentIndex, nextIndex, dimension, constants, isSolvable);
 					currentElement = vectors.get(currentIndex).data[currentIndex];
 				}
 			}
 
 			// check if current element 1.
 			if (currentElement.compareTo(D_ONE) != 0 && currentElement.compareTo(D_ZERO) != 0) { // if greater we have to scale vector by dividing it to become 1.
-				divideRow(vectors, dimension, currentIndex, currentElement, constants);
+				divideRow(vectors, currentIndex, currentElement, dimension, constants, isSolvable);
 			}
 
 			// make all elements below currentElement, value 1, as 0. (vectListSize - 1
@@ -97,21 +98,20 @@ public class Vector {
 			if (currentIndex + 1 != vectListSize) { // if last row, don't do anything.
 
 				for (int succeedingIndex = currentIndex + 1; succeedingIndex < vectListSize; succeedingIndex++) {
-					addRows(vectors, currentIndex, succeedingIndex, dimension, constants);
+					addRows(vectors, currentIndex, succeedingIndex, dimension, constants, isSolvable);
 				}
 
 			}
 		}
 	}
 
-	private static void RREF(List<Vector> vectors, int dimension, // dimension of all vectors in vectors list.
-			Vector constants) {
+	private static void RREF(List<Vector> vectors, int dimension, Vector constants, Boolean isSolvable) {
 
 		for (int currentIndex = vectors.size() - 1; currentIndex > 0; currentIndex--) {
 			
 			if(vectors.get(currentIndex).data[currentIndex].compareTo(D_ZERO) != 0) {
 				for (int precedingIndex = currentIndex - 1; precedingIndex >= 0; precedingIndex--) {
-					addRows(vectors, currentIndex, precedingIndex, dimension, constants);
+					addRows(vectors, currentIndex, precedingIndex, dimension, constants, isSolvable);
 				}
 			}
 		}
@@ -171,8 +171,7 @@ public class Vector {
 	}
 
 	/* Find other nonzero element row when current element is 0 */
-	private static int findNonZero(List<Vector> vectors, int vectListSize, int currentIndex, Double currentElement,
-			Vector constants) {
+	private static int findNonZero(List<Vector> vectors, int vectListSize, int currentIndex, Double currentElement) {
 		Boolean found = false;
 		int nextIndex = currentIndex + 1;
 
@@ -195,32 +194,34 @@ public class Vector {
 		return nextIndex;
 	}
 
-	private static void swapRows(List<Vector> vectors, int currentIndex, int nextIndex, Vector constants) {
+	private static void swapRows(List<Vector> vectors, int currentIndex, int nextIndex, int dimension, Vector constants, Boolean isSolvable) {
 		Collections.swap(vectors, currentIndex, nextIndex);
+		
 		// swap constants
-		Double temp = constants.data[nextIndex];
-		constants.data[nextIndex] = constants.data[currentIndex];
-		constants.data[currentIndex] = temp;
+		if(isSolvable) {
+			Double temp = constants.data[nextIndex];
+			constants.data[nextIndex] = constants.data[currentIndex];
+			constants.data[currentIndex] = temp;
+		}
+
 	}
 
 	/*
 	 * Used for gaus-jordan elimination: dividing row so that the current non-zero
 	 * element is 1.
 	 */
-	private static void divideRow(List<Vector> vectors, int dimension, int vecListIndex, Double currentElement,
-			Vector constants) {
+	private static void divideRow(List<Vector> vectors, int vecListIndex, Double currentElement, int dimension, Vector constants, Boolean isSolvable) {
 
 		Double mult = (1.0 / currentElement);
 		vectors.get(vecListIndex).scale(mult);
 
 		// multiply to constant
-		if (constants.data[vecListIndex].compareTo(D_ZERO) != 0)
+		if (isSolvable)
 			constants.data[vecListIndex] = constants.data[vecListIndex] * mult;
 
 	}
 
-	private static void addRows(List<Vector> vectors, int currentIndex, int otherIndex, int dimension,
-			Vector constants) {
+	private static void addRows(List<Vector> vectors, int currentIndex, int otherIndex, int dimension, Vector constants, Boolean isSolvable) {
 		
 		if (vectors.get(otherIndex).data[currentIndex].compareTo(D_ZERO) != 0) {
 			Double mult = vectors.get(otherIndex).data[currentIndex];
@@ -231,7 +232,8 @@ public class Vector {
 			//Bring addened back to its original.
 			vectors.get(currentIndex).scale(-(1.0 / mult));
 
-			constants.data[otherIndex] += -mult * constants.data[currentIndex];
+			if(isSolvable)
+				constants.data[otherIndex] += -mult * constants.data[currentIndex];
 		}
 	}
 	
@@ -268,7 +270,7 @@ public class Vector {
 		System.out.println("Inconsistent!");
 		return null;
 	}
-
+	
 	public void printElements() {
 		System.out.print("[");
 		for (int i = 0; i < this.dimension; i++) {

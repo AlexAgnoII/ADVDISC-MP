@@ -80,8 +80,8 @@ public class Driver {
 	
 	//for testing
 	public static void main(String[] args) {
-		gauss_Jordan_test();
+		//gauss_Jordan_test();
 		//ADVDISC_SAMPLES_SPAN();
-		//ADVDISC_SAMPLES_GJ();
+		ADVDISC_SAMPLES_GJ();
 	}
 }

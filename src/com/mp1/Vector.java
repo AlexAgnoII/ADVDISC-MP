@@ -68,17 +68,16 @@ public class Vector {
 		if(isSolvable) {
 	        solutionVector = check_for_inconsistency(vectors, constants, dimension);
 		}
-
+		
+		//printAllVectors(vectors, constants);
+		
 		return solutionVector;
 	}
 
 	private static void REF(List<Vector> vectors, int dimension, Vector constants, Boolean isSolvable) {
 		int vectListSize = vectors.size();
-		
-		printAllVectors(vectors, constants);
 
 		for (int currentIndex = 0; currentIndex < /*vectListSize*/ dimension; currentIndex++) {
-			System.out.println("CurrentIndex: " + currentIndex);
 			Double currentElement = vectors.get(currentIndex).data[currentIndex];
 
 			// check if current element 0.
@@ -127,11 +126,13 @@ public class Vector {
 		int index = 0;
 
 		Gauss_Jordan(vectors, dimensions, vector);
+		
+		int newDimension = vectors.get(0).dimension; //newly tranformed dimension
 
-		for (int currentIndex = 0; currentIndex < vectors.size(); currentIndex++) {
+		for (int currentIndex = 0; currentIndex < newDimension; currentIndex++) {
 			index = 0;
 			found = false;
-			while (index < dimensions && !found) {
+			while (index < newDimension && !found) {
 				if (vectors.get(currentIndex).data[index].compareTo(D_ZERO) != 0) {
 					found = true;
 					count++;
@@ -246,8 +247,6 @@ public class Vector {
 		Boolean isInconsistent = false;
 		int row = 0;
 		int col = 0;
-		
-		printAllVectors(vectors, constants);
 		
 		while(row < vectors.size() && !isInconsistent) {
 			isAllZeros = true;

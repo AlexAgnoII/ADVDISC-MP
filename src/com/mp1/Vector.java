@@ -76,8 +76,14 @@ public class Vector {
 
 	private static void REF(List<Vector> vectors, int dimension, Vector constants, Boolean isSolvable) {
 		int vectListSize = vectors.size();
+		int maxValue = dimension;
+		
+		if(dimension > vectors.size()) {
+			maxValue = vectors.size();
+		}
+		
 
-		for (int currentIndex = 0; currentIndex < /*vectListSize*/ dimension; currentIndex++) {
+		for (int currentIndex = 0; currentIndex < maxValue; currentIndex++) {
 			Double currentElement = vectors.get(currentIndex).data[currentIndex];
 
 			// check if current element 0.
@@ -108,8 +114,14 @@ public class Vector {
 	}
 
 	private static void RREF(List<Vector> vectors, int dimension, Vector constants, Boolean isSolvable) {
+		
+		int maxValue = dimension;
+		
+		if(dimension > vectors.size()) {
+			maxValue = vectors.size();
+		}
 
-		for (int currentIndex = dimension - 1; currentIndex > 0; currentIndex--) {
+		for (int currentIndex = maxValue - 1; currentIndex > 0; currentIndex--) {
 			
 			if(vectors.get(currentIndex).data[currentIndex].compareTo(D_ZERO) != 0) {
 				for (int precedingIndex = currentIndex - 1; precedingIndex >= 0; precedingIndex--) {
@@ -129,7 +141,7 @@ public class Vector {
 		
 		int newDimension = vectors.get(0).dimension; //newly tranformed dimension
 
-		for (int currentIndex = 0; currentIndex < newDimension; currentIndex++) {
+		for (int currentIndex = 0; currentIndex < vectors.size(); currentIndex++) {
 			index = 0;
 			found = false;
 			while (index < newDimension && !found) {

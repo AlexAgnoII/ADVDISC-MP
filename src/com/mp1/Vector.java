@@ -277,11 +277,11 @@ public class Vector {
 		}
 		
 		if(!isInconsistent) {
-			System.out.println("Consistent!");
+			//System.out.println("Consistent!");
 			return constants;
 		}
 		
-		System.out.println("Inconsistent!");
+		//System.out.println("Inconsistent!");
 		return null;
 	}
 	

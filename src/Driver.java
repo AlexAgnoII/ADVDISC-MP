@@ -33,8 +33,10 @@ public class Driver {
 		
 		
 		try {
+			System.out.println("Main: Consistent!");
 			answer.printElements();
 		}catch(Exception e) {
+			System.out.println("Main: Inconsistent!");
 			System.out.println("No solution.");
 			e.printStackTrace();
 		}
@@ -43,8 +45,8 @@ public class Driver {
 	public static void SPAN_TESTING() {
 		int dimension = 2;
 		
-		Double[] d1 = {4.0, 3.0/*, 3.0, 1.0*/};
-		Double[] d2 = {1.0, 5.0/*, 5.0, 4.0*/};
+		Double[] d1 = {1.0, 4.0/*, 3.0, 1.0*/};
+		Double[] d2 = {-3.0, -12.0/*, 5.0, 4.0*/};
 //		Double[] d3 = {-3.0, 1.0, 2.0, -1.0};
 //		Double[] d4 = {1.0, 2.0, 5.0, 2.0};
 		

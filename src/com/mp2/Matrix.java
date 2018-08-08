@@ -51,10 +51,10 @@ public class Matrix {
 			 for(int i = 0; i < newRowCount; i++) {
 				 Double[] dTestArray = new Double[other.columnCount];
 				 
-				 for(int x = 0; x < other.columnCount; x++) {
+				 for(int x = 0; x < newColCount; x++) {
 					 Double answer = 0.0;
 					 
-					 for(int j =0; j < newColCount; j++) {
+					 for(int j =0; j < this.columnCount; j++) {
 							answer += this.matrix.get(i).getElement(j) * other.matrix.get(j).getElement(x);
 					}
 					 

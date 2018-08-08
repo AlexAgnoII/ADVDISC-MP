@@ -88,9 +88,9 @@ public class Driver {
 		
 		//matrix 1
 		int matrix_1_dimension = 2;
-		Double[] d1 = {2.0, 2.0};
-		Double[] d2 = {3.0, -7.0};
-		Double[] d3 = {1.0, 4.0};
+		Double[] d1 = {0.0, -4.0};
+		Double[] d2 = {-3.0, 2.0};
+		Double[] d3 = {1.0, 0.0};
 		
 		Vector v1 = new Vector(d1, d1.length);
 		Vector v2 = new Vector(d2, d2.length);
@@ -107,25 +107,25 @@ public class Driver {
 		
 		//matrix 2
 		int matrix_2_dimension = 3;
-		Double[] d4 = {3.0, 1.0, 2.0};
-		Double[] d5 = {4.0, 1.0, 1.0};
-		Double[] d6 = {5.0, 4.0, 4.0};
+		Double[] d4 = {0.0, 6.0 , 9.0};
+		Double[] d5 = {1.0, -3.0 ,5.0};
+//		Double[] d6 = {5.0, 4.0 , 4.0};
 		
 		Vector v4 = new Vector(d4, d4.length);
 		Vector v5 = new Vector(d5, d5.length);
-		Vector v6 = new Vector(d6, d6.length);
+//		Vector v6 = new Vector(d6, d6.length);
 		
 		List<Vector> vecList2 = new ArrayList<Vector>();
 		vecList2.add(v4);
 		vecList2.add(v5);
-		vecList2.add(v6);
+//		vecList2.add(v6);
 		
 		Matrix m2 = new Matrix(vecList2, matrix_2_dimension);
 		m2.printMatrix();
 
 		
 		m1.times(m2);
-
+		
 
 
 	}

@@ -33,6 +33,7 @@ public class Matrix {
 	}
 	
 	public Matrix(List<Vector> list, int dimension) {
+		setRowColumn(dimension, list.size());
 		this.matrix = transformMatrix(list, dimension);
 	}
 	
@@ -40,15 +41,6 @@ public class Matrix {
 		int size = list.size();
 		List<Vector> vecTest = new ArrayList<Vector>();
 		List<Double[]> dTestList = new ArrayList<Double[]>();
-		
-		if(dimension == size) {
-			this.rowCount = this.columnCount = dimension;
-		}
-		
-		else {
-			this.rowCount = dimension;
-			this.columnCount = size;
-		}
 		
 		for(int i = 0; i < dimension; i++) {
 			dTestList.add(new Double[size]);
@@ -67,6 +59,17 @@ public class Matrix {
 		}
 		
 		return vecTest;
+	}
+	
+	private void setRowColumn(int dimension, int size) {
+		if(dimension == size) {
+			this.rowCount = this.columnCount = dimension;
+		}
+		
+		else {
+			this.rowCount = dimension;
+			this.columnCount = size;
+		}
 	}
 	
 	public void printMatrix() {

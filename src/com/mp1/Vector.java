@@ -8,7 +8,7 @@ import java.util.List;
  * @author Alex Agno II
  *         Jess Gano
  *         Claude Sedillo
- * ADVIDISC S17
+ * ADVIDISC S18
  */
 public class Vector {
 
@@ -304,6 +304,10 @@ public class Vector {
 		
 		System.out.print("constants: ");
 		constants.printElements();
+	}
+	
+	public Double getElement(int i) {
+		return this.data[i];
 	}
 
 }

@@ -4,40 +4,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mp1.Vector;
+import com.mp2.Matrix;
 
 public class Driver {
 	
 	public static void TEST_GJ() {
-		int dimension = 2 /*4*/;
-		Double[] d1 = {1.0, 4.0/*, 0.0, 3.0*/};
-		Double[] d2 = {-3.0, -12.0/*, -1.0, -3.0*/};
-//		Double[] d3 = {-1.0, 2.0, -2.0, -2.0};
-//		Double[] d4 = {1.0, 0.0, 0.0, 4.0};
+		int dimension = 3;
+		Double[] d1 = {2.0, 1.0, 3.0};
+		Double[] d2 = {-1.0, -2.0, -1.0};
+		Double[] d3 = {2.0, 1.0, 2.0};
 		
-		Double[] constants = {7.0, 6.0, /* -8.0, 7.0*/};
+		Double[] constants = {10.0, 8.0, 11.0};
 		
 		Vector v1 = new Vector(d1, d1.length);
 		Vector v2 = new Vector(d2, d2.length);
-//		Vector v3 = new Vector(d3, d3.length);
-//		Vector v4 = new Vector(d4, d4.length);
+		Vector v3 = new Vector(d3, d3.length);
 		Vector cv = new Vector(constants, constants.length);
 		
 		List<Vector> vecList = new ArrayList<Vector>();
 		
 		vecList.add(v1);
 		vecList.add(v2);
-//		vecList.add(v3);
-//		vecList.add(v4);
+		vecList.add(v3);
 		
 		Vector answer = Vector.Gauss_Jordan(vecList, dimension, cv);
 		
 		
 		try {
-			System.out.println("Main: Consistent!");
 			answer.printElements();
+			System.out.println("Main: Consistent!");
 		}catch(Exception e) {
-			System.out.println("Main: Inconsistent!");
 			System.out.println("No solution.");
+			System.out.println("Main: Inconsistent!");
 			e.printStackTrace();
 		}
 	}
@@ -69,7 +67,21 @@ public class Driver {
 	
 	//for testing
 	public static void main(String[] args) {
-		//TEST_GJ();
-		SPAN_TESTING();
+		Double[] d1 = {1.0, 3.0, 4.0};
+//		Double[] d2 = {2.0, 2.0, 1.0};
+		//Double[] d3 = {1.0, 0.0, 9.0};
+		
+		Vector v1 = new Vector(d1, d1.length);
+//		Vector v2 = new Vector(d2, d2.length);
+		//Vector v3 = new Vector(d3, d3.length);
+		
+		List<Vector> vecList = new ArrayList<Vector>();
+		vecList.add(v1);
+//		vecList.add(v2);
+		//vecList.add(v3);
+		
+		Matrix m = new Matrix(vecList, 3);
+		m.printMatrix();
+		
 	}
 }

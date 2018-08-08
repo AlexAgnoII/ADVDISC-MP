@@ -47,15 +47,15 @@ public class Matrix {
 		}
 		
 
-		for(int i = 0; i < this.rowCount; i++) {
+		for(int i = 0; i < dimension; i++) {
 			
-			for( int j = 0; j < this.columnCount; j++) {
+			for( int j = 0; j < size; j++) {
 				dTestList.get(i)[j] = list.get(j).getElement(i);
 			}
 		}
 		
-		for(int i = 0; i < this.rowCount; i++) {
-			vecTest.add(new Vector(dTestList.get(i), this.columnCount));
+		for(int i = 0; i < dimension; i++) {
+			vecTest.add(new Vector(dTestList.get(i),size));
 		}
 		
 		return vecTest;

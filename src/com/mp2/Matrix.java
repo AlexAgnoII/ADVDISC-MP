@@ -37,6 +37,55 @@ public class Matrix {
 		this.matrix = transformMatrix(list, dimension);
 	}
 	
+	public Matrix times(Matrix other) {
+		
+		Matrix result = null;
+		
+		//size mismatch check
+		if(this.columnCount == other.rowCount) {
+			 int newRowCount = this.rowCount;
+			 int newColCount = other.columnCount;
+			 List<Double[]> dTest = new ArrayList<Double[]>();
+			 List<Vector> vecList = new ArrayList<Vector>();
+			 
+			 for(int i = 0; i < newRowCount; i++) {
+				 Double[] dTestArray = new Double[other.columnCount];
+				 
+				 for(int x = 0; x < other.columnCount; x++) {
+					 Double answer = 0.0;
+					 
+					 for(int j =0; j < newColCount; j++) {
+							answer += this.matrix.get(i).getElement(j) * other.matrix.get(j).getElement(x);
+					}
+					 
+					 dTestArray[x] = answer;
+				 }
+				 
+				 dTest.add(dTestArray);
+
+			 }
+			 
+			 //test print to check answers
+//			 for(Double[] d : dTest) {
+//				 for(int i = 0; i < other.columnCount; i++) {
+//					 System.out.print(d[i] + " ");
+//				 }
+//				 System.out.println();
+//			 }
+			 
+			 for(int i = 0; i < newRowCount; i++) {
+				 vecList.add(new Vector(dTest.get(i), newColCount));
+			 }
+			 
+			 //transform before placing it in a matrix, because by default the matrix transforms the given list of vectors.
+			 vecList = transformMatrix(vecList, newColCount);
+			 result = new Matrix(vecList, newRowCount);
+		}
+		
+		result.printMatrix();
+		return result;
+	}
+	
 	private List<Vector> transformMatrix(List<Vector> list, int dimension) {
 		int size = list.size();
 		List<Vector> vecTest = new ArrayList<Vector>();

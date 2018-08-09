@@ -134,26 +134,34 @@ public class Driver {
 	public static void main(String[] args) {
 //		MATRIX_TIMES_TEST();
 		int matrix_1_dimension = 2;
-		Double[] d1 = {5.0, 0.0};
-		Double[] d2 = {6.0, 0.0};
+		Double[] d1 = {3.0, 5.0, -2.0};
+		Double[] d2 = {-1.0, 1.0, 3.0};
+		Double[] d3 = {2.0, 0.0, 4.0};
+
 
 		
-		List<Vector> vecList1 = new ArrayList<Vector>();
-		vecList1.add(new Vector(d1, d1.length));
-		vecList1.add(new Vector(d2, d2.length));
+		List<Vector> vecList = new ArrayList<Vector>();
+		vecList.add(new Vector(d1, d1.length));
+		vecList.add(new Vector(d2, d2.length));
+		vecList.add(new Vector(d3, d3.length));
 
 		
-		Matrix m = new Matrix(vecList1, 2);
-		Matrix answer = m.inverse();
+		
+		Matrix m = new Matrix(vecList, 3);
 		
 		try {
-			answer.det();
-			System.out.println("Has inverse");
+			Matrix woah = m.inverse();
+			woah.printMatrix();
+			
 		}
 		
-		catch(NullPointerException e) {
-			System.out.println("No inverse");
+		catch(Exception e) {
+			System.out.println("N/A");
 		}
+
+		
+		
+		
 		
 		
 		

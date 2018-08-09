@@ -71,8 +71,6 @@ public class Vector {
 	        solutionVector = check_for_inconsistency(vectors, constants, dimension);
 		}
 		
-		//printAllVectors(vectors, constants);
-		
 		return solutionVector;
 	}
 	
@@ -101,9 +99,14 @@ public class Vector {
 		return answer;
 	}
 	
-	public static List<Vector> Gauss_jordan_inverse() {
-		return null;
+
+	public static void Gauss_jordan_inverse(List<Vector> matrix, int rowCount, int colCount) {
+		Vector constants = new Vector(rowCount);
+		
+		REF(matrix, colCount, constants, true);
+		RREF(matrix, colCount, constants, true);
 	}
+	
 
 	private static double REF(List<Vector> vectors, int dimension, Vector constants, Boolean isSolvable) {
 		int vectListSize = vectors.size();

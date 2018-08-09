@@ -4,6 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import com.mp1.Vector;
 
+/**
+ * 
+ * @author Alex II
+ *         Claude Sedillo
+ *         Jess Gano
+ * ADVDISC S18
+ */
 public class Matrix {
 	
 	private List<Vector> matrix;
@@ -88,7 +95,7 @@ public class Matrix {
 	
 	public double det() {
 		double answer = 0.0;
-		List<Vector> matrixCopy = copyMatrix(this.matrix);
+		List<Vector> matrixCopy = copyMatrix();
 		
 		if(rowCount == columnCount) {
 			answer = Vector.Gauss_Jordan_Det(matrixCopy, rowCount, columnCount);
@@ -102,18 +109,65 @@ public class Matrix {
 		double determinant = det();
 		
 		if(determinant != 0.0) {
-
+			//append identity matrix to matrix
+			List<Vector> appendedMatrix = appendIdentityMatrix();
+			List<Vector> inverseMatrix = null;
+			int appendedColumnCount = columnCount*2;
+			Vector.Gauss_jordan_inverse(appendedMatrix, this.rowCount, appendedColumnCount);
 			
+			//Checking if answer is correct
+//			for(Vector v : appendedMatrix) {
+//				v.printElements();
+//			}
 			
-			
-			
+			//extract inverse.
+			inverseMatrix = extractInverse(appendedMatrix);
+			inverseMatrix = transformMatrix(inverseMatrix, this.rowCount); //rowCount or columnCount, since row and col is always equal.
+			answer = new Matrix(inverseMatrix, this.columnCount); //rowCount or columnCount, since row and col is always equal.
 		}
 		
 		
 		return answer;
 	}
 	
-	private List<Vector> copyMatrix(List<Vector> matrix) {
+	private List<Vector> appendIdentityMatrix() {
+		List<Vector> appendedMatrix = new ArrayList<Vector>();
+
+		for(int i = 0; i < this.rowCount; i++) {
+			Double[] d = new Double[this.columnCount*2];
+			
+			for(int j = 0; j < this.columnCount; j++) {
+				d[j] = this.matrix.get(i).getElement(j);
+				
+				if(j==i) {
+					d[j+this.columnCount] = 1.0;
+				}
+				else d[j+this.columnCount] = 0.0;
+			}
+			
+			appendedMatrix.add(new Vector(d, this.columnCount*2));
+		}
+		
+		return appendedMatrix;
+	}
+	
+	private List<Vector> extractInverse(List<Vector> matrix) {
+		List<Vector> inverseMatrix = new ArrayList<Vector>();
+		
+		for(int i = 0; i < this.rowCount; i++) {
+			Double[] d = new Double[this.columnCount];
+			
+			for(int j = this.columnCount; j < this.columnCount*2; j++) {
+				d[j - this.columnCount] = matrix.get(i).getElement(j);
+			}
+			
+			inverseMatrix.add(new Vector(d, this.columnCount));
+		}
+		
+		return inverseMatrix;
+	}
+	
+	private List<Vector> copyMatrix() {
 		List<Vector> copy = new ArrayList<Vector>();
 		
 		for(int i = 0; i < this.rowCount; i++) {

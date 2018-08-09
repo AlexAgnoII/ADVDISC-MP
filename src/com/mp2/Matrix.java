@@ -94,8 +94,6 @@ public class Matrix {
 			answer = Vector.Gauss_Jordan_Det(matrixCopy, rowCount, columnCount);
 		}
 		
-		this.printMatrix();
-		
 		return answer;
 	}
 	

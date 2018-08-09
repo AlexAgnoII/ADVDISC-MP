@@ -83,8 +83,20 @@ public class Vector {
 		answer = REF(matrix, colCount, constants, true);
 		RREF(matrix, colCount, constants, true);
 		
-		printAllVectors(matrix, constants);
-		
+		//check if a row is only full of zeros. (if such exist, return 0)
+		for(int i = 0; i < rowCount; i++) {
+			boolean hasNonZero = false;
+			
+			for(int j = 0; j < colCount; j++) {
+				if(matrix.get(i).data[i].compareTo(D_ZERO) != 0) {
+					hasNonZero = true;
+				}
+			}
+			
+			if(!hasNonZero) {
+				return 0.0;
+			}
+		}
 		
 		return answer;
 	}

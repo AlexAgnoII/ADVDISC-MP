@@ -134,14 +134,18 @@ public class Driver {
 	public static void main(String[] args) {
 //		MATRIX_TIMES_TEST();
 		int matrix_1_dimension = 2;
-		Double[] d1 = {0.0, -4.0};
-		Double[] d2 = {-3.0, 2.0};
+		Double[] d1 = {1.0, 2.0, 8.0};
+		Double[] d2 = {6.0, 7.0, 9.0};
+		Double[] d3 = {4.0, 3.0, 5.0};
+
 		
 		List<Vector> vecList1 = new ArrayList<Vector>();
 		vecList1.add(new Vector(d1, d1.length));
 		vecList1.add(new Vector(d2, d2.length));
+		vecList1.add(new Vector(d3, d3.length));
+
 		
-		Matrix m = new Matrix(vecList1, 2);
+		Matrix m = new Matrix(vecList1, 3);
 		System.out.println(m.det());
 		
 		

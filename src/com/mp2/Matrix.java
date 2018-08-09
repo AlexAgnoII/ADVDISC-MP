@@ -98,7 +98,19 @@ public class Matrix {
 	}
 	
 	public Matrix inverse() {
-		return null;
+		Matrix answer = null;
+		double determinant = det();
+		
+		if(determinant != 0.0) {
+
+			
+			
+			
+			
+		}
+		
+		
+		return answer;
 	}
 	
 	private List<Vector> copyMatrix(List<Vector> matrix) {

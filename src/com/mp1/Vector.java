@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.mp2.Matrix;
+
 /**
  * @author Alex Agno II
  *         Jess Gano
@@ -73,10 +75,28 @@ public class Vector {
 		
 		return solutionVector;
 	}
+	
+	public static double Gauss_Jordan_Det(List<Vector> matrix, int rowCount, int colCount) {
+		double answer = 0;
+		Vector constants = new Vector(rowCount);
+		
+		answer = REF(matrix, colCount, constants, true);
+		RREF(matrix, colCount, constants, true);
+		
+		printAllVectors(matrix, constants);
+		
+		
+		return answer;
+	}
+	
+	public static List<Vector> Gauss_jordan_inverse() {
+		return null;
+	}
 
-	private static void REF(List<Vector> vectors, int dimension, Vector constants, Boolean isSolvable) {
+	private static double REF(List<Vector> vectors, int dimension, Vector constants, Boolean isSolvable) {
 		int vectListSize = vectors.size();
 		int maxValue = dimension;
+		double number = 1.0;
 		
 		if(dimension > vectors.size()) {
 			maxValue = vectors.size();
@@ -91,14 +111,14 @@ public class Vector {
 				int nextIndex = findNonZero(vectors, vectListSize, currentIndex, currentElement);
 
 				if (nextIndex != -1) {
-					swapRows(vectors, currentIndex, nextIndex, dimension, constants, isSolvable);
+					number *= swapRows(vectors, currentIndex, nextIndex, dimension, constants, isSolvable);
 					currentElement = vectors.get(currentIndex).data[currentIndex];
 				}
 			}
 
 			// check if current element 1.
 			if (currentElement.compareTo(D_ONE) != 0 && currentElement.compareTo(D_ZERO) != 0) { // if greater we have to scale vector by dividing it to become 1.
-				divideRow(vectors, currentIndex, currentElement, dimension, constants, isSolvable);
+				number *= divideRow(vectors, currentIndex, currentElement, dimension, constants, isSolvable);
 			}
 
 			// make all elements below currentElement, value 1, as 0. (vectListSize - 1
@@ -111,6 +131,8 @@ public class Vector {
 
 			}
 		}
+		
+		return number;
 	}
 
 	private static void RREF(List<Vector> vectors, int dimension, Vector constants, Boolean isSolvable) {
@@ -129,6 +151,7 @@ public class Vector {
 				}
 			}
 		}
+		
 	}
 
 	public static int span(List<Vector> vectors, int dimensions) {
@@ -210,7 +233,7 @@ public class Vector {
 		return nextIndex;
 	}
 
-	private static void swapRows(List<Vector> vectors, int currentIndex, int nextIndex, int dimension, Vector constants, Boolean isSolvable) {
+	private static double swapRows(List<Vector> vectors, int currentIndex, int nextIndex, int dimension, Vector constants, Boolean isSolvable) {
 		Collections.swap(vectors, currentIndex, nextIndex);
 		
 		// swap constants
@@ -219,14 +242,15 @@ public class Vector {
 			constants.data[nextIndex] = constants.data[currentIndex];
 			constants.data[currentIndex] = temp;
 		}
-
+		
+		return -1.0;
 	}
 
 	/*
 	 * Used for gaus-jordan elimination: dividing row so that the current non-zero
 	 * element is 1.
 	 */
-	private static void divideRow(List<Vector> vectors, int vecListIndex, Double currentElement, int dimension, Vector constants, Boolean isSolvable) {
+	private static double divideRow(List<Vector> vectors, int vecListIndex, Double currentElement, int dimension, Vector constants, Boolean isSolvable) {
 
 		Double mult = (1.0 / currentElement);
 		vectors.get(vecListIndex).scale(mult);
@@ -234,6 +258,8 @@ public class Vector {
 		// multiply to constant
 		if (isSolvable)
 			constants.data[vecListIndex] = constants.data[vecListIndex] * mult;
+		
+		return currentElement;
 
 	}
 

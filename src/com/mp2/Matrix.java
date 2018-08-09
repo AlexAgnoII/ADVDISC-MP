@@ -86,6 +86,39 @@ public class Matrix {
 		return result;
 	}
 	
+	public double det() {
+		double answer = 0.0;
+		List<Vector> matrixCopy = copyMatrix(this.matrix);
+		
+		if(rowCount == columnCount) {
+			answer = Vector.Gauss_Jordan_Det(matrixCopy, rowCount, columnCount);
+		}
+		
+		this.printMatrix();
+		
+		return answer;
+	}
+	
+	public Matrix inverse() {
+		return null;
+	}
+	
+	private List<Vector> copyMatrix(List<Vector> matrix) {
+		List<Vector> copy = new ArrayList<Vector>();
+		
+		for(int i = 0; i < this.rowCount; i++) {
+			Double[] d = new Double[columnCount];
+			for(int j = 0; j < this.columnCount; j++) {
+				d[j] = this.matrix.get(i).getElement(j);
+			}
+			
+			copy.add(new Vector(d, this.columnCount));
+		}
+		
+		return copy;
+	}
+	
+	
 	private List<Vector> transformMatrix(List<Vector> list, int dimension) {
 		int size = list.size();
 		List<Vector> vecTest = new ArrayList<Vector>();

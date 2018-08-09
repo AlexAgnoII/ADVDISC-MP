@@ -132,6 +132,21 @@ public class Driver {
 	
 	//for testing
 	public static void main(String[] args) {
-		MATRIX_TIMES_TEST();
+//		MATRIX_TIMES_TEST();
+		int matrix_1_dimension = 2;
+		Double[] d1 = {0.0, -4.0};
+		Double[] d2 = {-3.0, 2.0};
+		
+		List<Vector> vecList1 = new ArrayList<Vector>();
+		vecList1.add(new Vector(d1, d1.length));
+		vecList1.add(new Vector(d2, d2.length));
+		
+		Matrix m = new Matrix(vecList1, 2);
+		System.out.println(m.det());
+		
+		
+		
+
 	}
+	
 }

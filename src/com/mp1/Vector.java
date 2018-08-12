@@ -1,10 +1,9 @@
 package com.mp1;
 
 import java.util.ArrayList;
+
 import java.util.Collections;
 import java.util.List;
-
-import com.mp2.Matrix;
 
 /**
  * @author Alex Agno II

@@ -10,7 +10,7 @@ import com.mp2.Matrix;
  * @author Alex Agno II
  *         Jess Gano
  *         Claude Sedillo
- * ADVIDISC S18
+ * ADVDISC S18
  */
 public class Vector {
 

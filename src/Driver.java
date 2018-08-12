@@ -1,6 +1,7 @@
 
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import com.mp1.Vector;
@@ -66,20 +67,21 @@ public class Driver {
 	}
 	
 	public static void MATRIX_TEST() {
-		Double[] d1 = {1.0, 3.0, 4.0};
-		Double[] d2 = {2.0, 2.0, 1.0};
-		//Double[] d3 = {1.0, 0.0, /*9.0*/};
-		
-		Vector v1 = new Vector(d1, d1.length);
-		Vector v2 = new Vector(d2, d2.length);
-		//Vector v3 = new Vector(d3, d3.length);
-		
-		List<Vector> vecList = new ArrayList<Vector>();
-		vecList.add(v1);
-		vecList.add(v2);
-		//vecList.add(v3);
-		
-		Matrix m = new Matrix(vecList, 3);
+//		Double[] d1 = {1.0};//, 3.0, 4.0};
+//		Double[] d2 = {2.0};//, 2.0, 1.0};
+//		Double[] d3 = {1.0};//, 0.0, 9.0};
+//		
+//		Vector v1 = new Vector(d1, d1.length);
+//		Vector v2 = new Vector(d2, d2.length);
+//		Vector v3 = new Vector(d3, d3.length);
+//		
+//		List<Vector> vecList = new ArrayList<Vector>();
+//		vecList.add(v1);
+//		vecList.add(v2);
+//		vecList.add(v3);
+//		
+//		Matrix m = new Matrix(vecList, 1);
+		Matrix m = new Matrix(10);
 		m.printMatrix();
 		
 	}
@@ -87,10 +89,10 @@ public class Driver {
 	public static void MATRIX_TIMES_TEST() {
 		
 		//matrix 1
-		int matrix_1_dimension = 2;
-		Double[] d1 = {0.0, -4.0};
-		Double[] d2 = {-3.0, 2.0};
-		Double[] d3 = {1.0, 0.0};
+		int matrix_1_dimension = 3;
+		Double[] d1 = {1.0, 2.0, 4.0};
+		Double[] d2 = {0.0, 1.0, 2.0};
+		Double[] d3 = {1.0, 1.0, 3.0};
 		
 		Vector v1 = new Vector(d1, d1.length);
 		Vector v2 = new Vector(d2, d2.length);
@@ -102,70 +104,103 @@ public class Driver {
 		vecList1.add(v3);
 		
 		Matrix m1 = new Matrix(vecList1, matrix_1_dimension);
-		m1.printMatrix();
+
 		
 		
 		//matrix 2
 		int matrix_2_dimension = 3;
-		Double[] d4 = {0.0, 6.0 , 9.0};
-		Double[] d5 = {1.0, -3.0 ,5.0};
-//		Double[] d6 = {5.0, 4.0 , 4.0};
+		Double[] d4 = {1.0, 0.0, 4.0};
+		Double[] d5 = {1.0, 0.0, 1.0};
+		Double[] d6 = {2.0, 1.0, 5.0};
 		
 		Vector v4 = new Vector(d4, d4.length);
 		Vector v5 = new Vector(d5, d5.length);
-//		Vector v6 = new Vector(d6, d6.length);
+	    Vector v6 = new Vector(d6, d6.length);
 		
 		List<Vector> vecList2 = new ArrayList<Vector>();
 		vecList2.add(v4);
 		vecList2.add(v5);
-//		vecList2.add(v6);
+	    vecList2.add(v6);
 		
 		Matrix m2 = new Matrix(vecList2, matrix_2_dimension);
+		
+		System.out.println("Matrix 1");
+		m1.printMatrix();
+		System.out.println();
+		System.out.println("Matrix 2");
 		m2.printMatrix();
-
+		System.out.println("\n\n");
 		
-		m1.times(m2);
-		
-
-
+		try {
+			
+			Matrix ans = m1.times(m2);
+			ans.printMatrix();
+		}catch(NullPointerException e) {
+			System.out.println("No solution");
+		}
 	}
 	
-	//for testing
-	public static void main(String[] args) {
-//		MATRIX_TIMES_TEST();
-		int matrix_1_dimension = 2;
-		Double[] d1 = {3.0, 5.0, -2.0};
-		Double[] d2 = {-1.0, 1.0, 3.0};
-		Double[] d3 = {2.0, 0.0, 4.0};
+	public static void MATRIX_DETERMINANT() {
+		Double[] d1 = {2.0, -3.0, -2.0, -1.0};
+		Double[] d2 = {-1.0, 1.0, 1.0, 3.0};
+		Double[] d3 = {3.0, 0.0, 4.0, 0.0};
+		Double[] d4 = {0.0, 4.0, 1.0, -2.0};
+		
+		
+		Vector v1 = new Vector(d1, d1.length);
+		Vector v2 = new Vector(d2, d2.length);
+	    Vector v3 = new Vector(d3, d3.length);
+	    Vector v4 = new Vector(d4, d4.length);
+		
+		List<Vector> vecList = new ArrayList<Vector>();
+		vecList.add(v1);
+		vecList.add(v2);
+	    vecList.add(v3);
+	    vecList.add(v4);
+	    
+	    Matrix m = new Matrix(vecList, 4);
+	    m.printMatrix();
+	    System.out.println();
+	    System.out.println(m.det());
+	}
+	
+	public static void MATRIX_INVERSE() {
+		Double[] d1 = {1.0, 0.0};
+		Double[] d2 = {0.0, 2.0};
+		Double[] d3 = {1.0, 1.0};
 
+		
+		
+		Vector v1 = new Vector(d1, d1.length);
+		Vector v2 = new Vector(d2, d2.length);
+	    Vector v3 = new Vector(d3, d3.length);
 
 		
 		List<Vector> vecList = new ArrayList<Vector>();
-		vecList.add(new Vector(d1, d1.length));
-		vecList.add(new Vector(d2, d2.length));
-		vecList.add(new Vector(d3, d3.length));
+		vecList.add(v1);
+		vecList.add(v2);
+	    vecList.add(v3);
 
-		
-		
-		Matrix m = new Matrix(vecList, 3);
-		
-		try {
-			Matrix woah = m.inverse();
-			woah.printMatrix();
-			
-		}
-		
-		catch(Exception e) {
-			System.out.println("N/A");
-		}
+	    
+	    Matrix m = new Matrix(vecList, 2);
+	    m.printMatrix();
+	    System.out.println();
+	    
+	    
+	    try {
+	    	Matrix inverse = m.inverse();
+	    	inverse.printMatrix();
+	    	
+	    } catch(NullPointerException e) {
+	    	System.out.println("No inverse.");
+	    }
 
-		
-		
-		
-		
-		
-		
+	}
 
+
+	//for testing
+	public static void main(String[] args) {
+		MATRIX_INVERSE();
 	}
 	
 }

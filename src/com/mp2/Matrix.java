@@ -6,9 +6,9 @@ import com.mp1.Vector;
 
 /**
  * 
- * @author Alex II
- *         Claude Sedillo
+ * @author Alex Agno II
  *         Jess Gano
+ *         Claude Sedillo
  * ADVDISC S18
  */
 public class Matrix {
@@ -72,14 +72,6 @@ public class Matrix {
 
 			 }
 			 
-			 //test print to check answers
-//			 for(Double[] d : dTest) {
-//				 for(int i = 0; i < other.columnCount; i++) {
-//					 System.out.print(d[i] + " ");
-//				 }
-//				 System.out.println();
-//			 }
-			 
 			 for(int i = 0; i < newRowCount; i++) {
 				 vecList.add(new Vector(dTest.get(i), newColCount));
 			 }
@@ -89,7 +81,6 @@ public class Matrix {
 			 result = new Matrix(vecList, newRowCount);
 		}
 		
-		result.printMatrix();
 		return result;
 	}
 	
@@ -114,11 +105,6 @@ public class Matrix {
 			List<Vector> inverseMatrix = null;
 			int appendedColumnCount = columnCount*2;
 			Vector.Gauss_jordan_inverse(appendedMatrix, this.rowCount, appendedColumnCount);
-			
-			//Checking if answer is correct
-//			for(Vector v : appendedMatrix) {
-//				v.printElements();
-//			}
 			
 			//extract inverse.
 			inverseMatrix = extractInverse(appendedMatrix);
@@ -151,14 +137,14 @@ public class Matrix {
 		return appendedMatrix;
 	}
 	
-	private List<Vector> extractInverse(List<Vector> matrix) {
+	private List<Vector> extractInverse(List<Vector> appendedMatrix) {
 		List<Vector> inverseMatrix = new ArrayList<Vector>();
 		
 		for(int i = 0; i < this.rowCount; i++) {
 			Double[] d = new Double[this.columnCount];
 			
 			for(int j = this.columnCount; j < this.columnCount*2; j++) {
-				d[j - this.columnCount] = matrix.get(i).getElement(j);
+				d[j - this.columnCount] = appendedMatrix.get(i).getElement(j);
 			}
 			
 			inverseMatrix.add(new Vector(d, this.columnCount));

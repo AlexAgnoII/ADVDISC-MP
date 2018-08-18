@@ -22,7 +22,7 @@ public class Matrix {
 		this.matrix = new ArrayList<Vector>();
 		
 		for(int i = 0; i < dimension; i++) {
-			Double[] data = new Double[dimension];
+			double[] data = new double[dimension];
 			
 			for(int x = 0; x < dimension; x++) {
 				if(x == i) {
@@ -52,14 +52,14 @@ public class Matrix {
 		if(this.columnCount == other.rowCount) {
 			 int newRowCount = this.rowCount;
 			 int newColCount = other.columnCount;
-			 List<Double[]> dTest = new ArrayList<Double[]>();
+			 List<double[]> dTest = new ArrayList<double[]>();
 			 List<Vector> vecList = new ArrayList<Vector>();
 			 
 			 for(int i = 0; i < newRowCount; i++) {
-				 Double[] dTestArray = new Double[other.columnCount];
+				 double[] dTestArray = new double[other.columnCount];
 				 
 				 for(int x = 0; x < newColCount; x++) {
-					 Double answer = 0.0;
+					 double answer = 0.0;
 					 
 					 for(int j =0; j < this.columnCount; j++) {
 							answer += this.matrix.get(i).getElement(j) * other.matrix.get(j).getElement(x);
@@ -92,26 +92,32 @@ public class Matrix {
 			answer = Vector.Gauss_Jordan_Det(matrixCopy, rowCount, columnCount);
 		}
 		
+		else {
+			return (Double) null;
+		}
+		
 		return answer;
 	}
 	
 	public Matrix inverse() {
 		Matrix answer = null;
-		double determinant = det();
 		
-		if(determinant != 0.0) {
-			//append identity matrix to matrix
-			List<Vector> appendedMatrix = appendIdentityMatrix();
-			List<Vector> inverseMatrix = null;
-			int appendedColumnCount = columnCount*2;
-			Vector.Gauss_jordan_inverse(appendedMatrix, this.rowCount, appendedColumnCount);
+		if(this.rowCount == this.columnCount) {
+			double determinant = det();
 			
-			//extract inverse.
-			inverseMatrix = extractInverse(appendedMatrix);
-			inverseMatrix = transformMatrix(inverseMatrix, this.rowCount); //rowCount or columnCount, since row and col is always equal.
-			answer = new Matrix(inverseMatrix, this.columnCount); //rowCount or columnCount, since row and col is always equal.
+			if(determinant != 0.0) {
+				//append identity matrix to matrix
+				List<Vector> appendedMatrix = appendIdentityMatrix();
+				List<Vector> inverseMatrix = null;
+				int appendedColumnCount = columnCount*2;
+				Vector.Gauss_jordan_inverse(appendedMatrix, this.rowCount, appendedColumnCount);
+				
+				//extract inverse.
+				inverseMatrix = extractInverse(appendedMatrix);
+				inverseMatrix = transformMatrix(inverseMatrix, this.rowCount); //rowCount or columnCount, since row and col is always equal.
+				answer = new Matrix(inverseMatrix, this.columnCount); //rowCount or columnCount, since row and col is always equal.
+			}
 		}
-		
 		
 		return answer;
 	}
@@ -120,7 +126,7 @@ public class Matrix {
 		List<Vector> appendedMatrix = new ArrayList<Vector>();
 
 		for(int i = 0; i < this.rowCount; i++) {
-			Double[] d = new Double[this.columnCount*2];
+			double[] d = new double[this.columnCount*2];
 			
 			for(int j = 0; j < this.columnCount; j++) {
 				d[j] = this.matrix.get(i).getElement(j);
@@ -141,7 +147,7 @@ public class Matrix {
 		List<Vector> inverseMatrix = new ArrayList<Vector>();
 		
 		for(int i = 0; i < this.rowCount; i++) {
-			Double[] d = new Double[this.columnCount];
+			double[] d = new double[this.columnCount];
 			
 			for(int j = this.columnCount; j < this.columnCount*2; j++) {
 				d[j - this.columnCount] = appendedMatrix.get(i).getElement(j);
@@ -157,7 +163,7 @@ public class Matrix {
 		List<Vector> copy = new ArrayList<Vector>();
 		
 		for(int i = 0; i < this.rowCount; i++) {
-			Double[] d = new Double[columnCount];
+			double[] d = new double[columnCount];
 			for(int j = 0; j < this.columnCount; j++) {
 				d[j] = this.matrix.get(i).getElement(j);
 			}
@@ -172,10 +178,10 @@ public class Matrix {
 	private List<Vector> transformMatrix(List<Vector> list, int dimension) {
 		int size = list.size();
 		List<Vector> vecTest = new ArrayList<Vector>();
-		List<Double[]> dTestList = new ArrayList<Double[]>();
+		List<double[]> dTestList = new ArrayList<double[]>();
 		
 		for(int i = 0; i < dimension; i++) {
-			dTestList.add(new Double[size]);
+			dTestList.add(new double[size]);
 		}
 		
 
@@ -211,6 +217,10 @@ public class Matrix {
 		
 		System.out.println("Row count: " + this.rowCount);
 		System.out.println("Column count: " + this.columnCount);
+	}
+	
+	public void transpose() {
+		
 	}
 	
 }

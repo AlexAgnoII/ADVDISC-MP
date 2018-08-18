@@ -13,30 +13,27 @@ import java.util.List;
  */
 public class Vector {
 
-    private Double[] data;
+    private double[] data;
     private int dimension;
-    
-    private static final Double D_ZERO = 0.0;
-    private static final Double D_ONE = 1.0;
 
     public Vector(int dimension) {
         this.dimension = dimension;
-        this.data = new Double[dimension];
+        this.data = new double[dimension];
 
         for(int i = 0; i < dimension; i++) {
             this.data[i] = 0.0;
         }
     }
 
-    public Vector(Double[] array, int dimension) {
+    public Vector(double[] array, int dimension) {
         this.data = array;
         this.dimension = dimension;
     }
     
-    public Vector scale(Double scalar) {
+    public Vector scale(double scalar) {
     	
     	for (int i = 0; i < dimension; i++) {
-    		if(this.data[i].compareTo(D_ZERO) != 0)
+    		if(this.data[i] != 0.0)
     			this.data[i] = this.data[i] * scalar;
     	}
     	
@@ -85,7 +82,7 @@ public class Vector {
 			boolean hasNonZero = false;
 			
 			for(int j = 0; j < colCount; j++) {
-				if(matrix.get(i).data[i].compareTo(D_ZERO) != 0) {
+				if(matrix.get(i).data[i] != 0.0) {
 					hasNonZero = true;
 				}
 			}
@@ -118,10 +115,10 @@ public class Vector {
 		
 
 		for (int currentIndex = 0; currentIndex < maxValue; currentIndex++) {
-			Double currentElement = vectors.get(currentIndex).data[currentIndex];
+			double currentElement = vectors.get(currentIndex).data[currentIndex];
 
 			// check if current element 0.
-			if (currentElement.compareTo(D_ZERO) == 0) { // if 0, we have to swap.
+			if (currentElement == 0.0) { // if 0, we have to swap.
 				int nextIndex = findNonZero(vectors, vectListSize, currentIndex, currentElement);
 
 				if (nextIndex != -1) {
@@ -131,7 +128,7 @@ public class Vector {
 			}
 
 			// check if current element 1.
-			if (currentElement.compareTo(D_ONE) != 0 && currentElement.compareTo(D_ZERO) != 0) { // if greater we have to scale vector by dividing it to become 1.
+			if (currentElement != 1.0 && currentElement != 0.0) { // if greater we have to scale vector by dividing it to become 1.
 				number *= divideRow(vectors, currentIndex, currentElement, dimension, constants, isSolvable);
 			}
 
@@ -159,7 +156,7 @@ public class Vector {
 
 		for (int currentIndex = maxValue - 1; currentIndex > 0; currentIndex--) {
 			
-			if(vectors.get(currentIndex).data[currentIndex].compareTo(D_ZERO) != 0) {
+			if(vectors.get(currentIndex).data[currentIndex] != 0.0) {
 				for (int precedingIndex = currentIndex - 1; precedingIndex >= 0; precedingIndex--) {
 					addRows(vectors, currentIndex, precedingIndex, dimension, constants, isSolvable);
 				}
@@ -182,7 +179,7 @@ public class Vector {
 			index = 0;
 			found = false;
 			while (index < newDimension && !found) {
-				if (vectors.get(currentIndex).data[index].compareTo(D_ZERO) != 0) {
+				if (vectors.get(currentIndex).data[index] != 0.0) {
 					found = true;
 					count++;
 				}
@@ -199,10 +196,10 @@ public class Vector {
 	private static int transform_vectors(List<Vector> vectors, int dimension) {
 
 		int size = vectors.size();
-		List<Double[]> tempDoubleList = new ArrayList<Double[]>();
+		List<double[]> tempDoubleList = new ArrayList<double[]>();
 		
 		for(int i = 0; i < dimension; i++) {
-			tempDoubleList.add(new Double[size]);
+			tempDoubleList.add(new double[size]);
 		}
 		
 		for(int col = 0; col < dimension; col++) {
@@ -224,7 +221,7 @@ public class Vector {
 	}
 
 	/* Find other nonzero element row when current element is 0 */
-	private static int findNonZero(List<Vector> vectors, int vectListSize, int currentIndex, Double currentElement) {
+	private static int findNonZero(List<Vector> vectors, int vectListSize, int currentIndex, double currentElement) {
 		Boolean found = false;
 		int nextIndex = currentIndex + 1;
 
@@ -232,7 +229,7 @@ public class Vector {
 		// vector's element.
 		while (!found && nextIndex < vectListSize) {
 
-			if (currentElement.compareTo(vectors.get(nextIndex).data[currentIndex]) != 0) {
+			if (currentElement != vectors.get(nextIndex).data[currentIndex]) {
 				currentElement = vectors.get(nextIndex).data[currentIndex];
 				found = true;
 			} else {
@@ -252,7 +249,7 @@ public class Vector {
 		
 		// swap constants
 		if(isSolvable) {
-			Double temp = constants.data[nextIndex];
+			double temp = constants.data[nextIndex];
 			constants.data[nextIndex] = constants.data[currentIndex];
 			constants.data[currentIndex] = temp;
 		}
@@ -264,9 +261,9 @@ public class Vector {
 	 * Used for gaus-jordan elimination: dividing row so that the current non-zero
 	 * element is 1.
 	 */
-	private static double divideRow(List<Vector> vectors, int vecListIndex, Double currentElement, int dimension, Vector constants, Boolean isSolvable) {
+	private static double divideRow(List<Vector> vectors, int vecListIndex, double currentElement, int dimension, Vector constants, Boolean isSolvable) {
 
-		Double mult = (1.0 / currentElement);
+		double mult = (1.0 / currentElement);
 		vectors.get(vecListIndex).scale(mult);
 
 		// multiply to constant
@@ -279,8 +276,8 @@ public class Vector {
 
 	private static void addRows(List<Vector> vectors, int currentIndex, int otherIndex, int dimension, Vector constants, Boolean isSolvable) {
 		
-		if (vectors.get(otherIndex).data[currentIndex].compareTo(D_ZERO) != 0) {
-			Double mult = vectors.get(otherIndex).data[currentIndex];
+		if (vectors.get(otherIndex).data[currentIndex] != 0.0) {
+			double mult = vectors.get(otherIndex).data[currentIndex];
 			
 			//Scale and Add addenned.
 			vectors.get(otherIndex).add(vectors.get(currentIndex).scale(-mult));
@@ -346,7 +343,7 @@ public class Vector {
 		constants.printElements();
 	}
 	
-	public Double getElement(int i) {
+	public double getElement(int i) {
 		return this.data[i];
 	}
 
